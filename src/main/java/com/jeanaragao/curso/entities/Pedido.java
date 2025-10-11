@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.time.Instant;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.jeanaragao.curso.entities.enums.OrdemPedido;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -15,28 +16,30 @@ import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "tb_pedido")
-public class Pedido implements Serializable{
-	
+public class Pedido implements Serializable {
+
 	private static final long serialVersionUID = 1L;
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	
+
 	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss'Z'", timezone = "GMT")
 	private Instant momento;
-	
-	
+
+	private Integer ordemPedido;
+
 	@ManyToOne
 	@JoinColumn(name = "id_cliente")
 	private Usuario cliente;
 
 	public Pedido() {
 	}
-		
-	public Pedido(Long id, Instant momento, Usuario cliente) {
+
+	public Pedido(Long id, Instant momento, OrdemPedido ordemPedido, Usuario cliente) {
 		super();
 		this.id = id;
 		this.momento = momento;
+		setOrdemPedido(ordemPedido);
 		this.cliente = cliente;
 	}
 
@@ -54,6 +57,17 @@ public class Pedido implements Serializable{
 
 	public void setMomento(Instant momento) {
 		this.momento = momento;
+	}
+
+	public OrdemPedido getOrdemPedido() {
+		return OrdemPedido.valueOf(ordemPedido);
+	}
+
+	public void setOrdemPedido(OrdemPedido ordemPedido) {
+		if (ordemPedido != null) {
+			this.ordemPedido = ordemPedido.getCodigo();
+		}
+
 	}
 
 	public Usuario getCliente() {
@@ -84,8 +98,5 @@ public class Pedido implements Serializable{
 			return false;
 		return true;
 	}
-	
-	
-	
 
 }
