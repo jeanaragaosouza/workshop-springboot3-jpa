@@ -1,0 +1,9 @@
+package com.jeanaragao.curso.repositories;
+
+import org.springframework.data.jpa.repository.JpaRepository;
+
+import com.jeanaragao.curso.entities.Produto;
+
+public interface ProdutoRepository extends JpaRepository<Produto, Long>{
+
+}
