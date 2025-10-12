@@ -8,8 +8,10 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.Table;
-import jakarta.persistence.Transient;
 
 @Entity
 @Table(name = "tb_produto")
@@ -24,7 +26,9 @@ public class Produto implements Serializable{
 	private double preco;
 	private String imgUrl;
 	
-	@Transient
+	
+	@ManyToMany
+	@JoinTable(name = "tb_produto_categoria",joinColumns = @JoinColumn(name = "id_produto"), inverseJoinColumns = @JoinColumn(name = "id_categoria"))
 	private Set<Categoria> categorias = new HashSet<>();
 	
 	public Produto() {
