@@ -9,11 +9,13 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
 
 import com.jeanaragao.curso.entities.Categoria;
+import com.jeanaragao.curso.entities.ItemPedido;
 import com.jeanaragao.curso.entities.Pedido;
 import com.jeanaragao.curso.entities.Produto;
 import com.jeanaragao.curso.entities.Usuario;
 import com.jeanaragao.curso.entities.enums.OrdemPedido;
 import com.jeanaragao.curso.repositories.CategoriaRepository;
+import com.jeanaragao.curso.repositories.ItemPedidoRepository;
 import com.jeanaragao.curso.repositories.PedidoRepository;
 import com.jeanaragao.curso.repositories.ProdutoRepository;
 import com.jeanaragao.curso.repositories.UsuarioRepository;
@@ -32,6 +34,9 @@ public class TestConfig implements CommandLineRunner{
 	
 	@Autowired
 	private ProdutoRepository produtoRepository;
+	
+	@Autowired
+	private ItemPedidoRepository itemPedidoRepository; 
 		
 
 	@Override
@@ -55,8 +60,17 @@ public class TestConfig implements CommandLineRunner{
 		Pedido o2 = new Pedido(null, Instant.parse("2019-07-21T03:42:10Z"), OrdemPedido.AGUARDANDO, u2);
 		Pedido o3 = new Pedido(null, Instant.parse("2019-07-22T15:21:22Z"), OrdemPedido.ENVIADO, u1); 
 		
+
+		
 		usuarioRepository.saveAll(Arrays.asList(u1, u2));
 		pedidoRepository.saveAll(Arrays.asList(o1,o2,o3));
+		
+		ItemPedido oi1 = new ItemPedido(o1, p1, 2, p1.getPreco());
+		ItemPedido oi2 = new ItemPedido(o1, p3, 1, p3.getPreco());
+		ItemPedido oi3 = new ItemPedido(o2, p3, 2, p3.getPreco());
+		ItemPedido oi4 = new ItemPedido(o3, p5, 2, p5.getPreco());
+		
+		
 		
 		categoriaRepository.saveAll(Arrays.asList(cat1, cat2, cat3));
 		produtoRepository.saveAll(Arrays.asList(p1,p2,p3,p4,p5));
@@ -68,7 +82,11 @@ public class TestConfig implements CommandLineRunner{
 		p4.getCategorias().add(cat3);
 		p5.getCategorias().add(cat2);
 		
+		
+		
 		produtoRepository.saveAll(Arrays.asList(p1,p2,p3,p4,p5));
+		
+		itemPedidoRepository.saveAll(Arrays.asList(oi1, oi2, oi3, oi4));
 
 		
 	}
